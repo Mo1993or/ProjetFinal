@@ -1,0 +1,160 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Métier;
+
+import Modéle.Classe;
+import Modéle.Connexion;
+import Modéle.Eleve;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author serignemor
+ */
+public class metier {
+    
+    public void ajoutClasse(String nomClasse,String annee) {
+         try{
+            Connection con= Connexion.getCon();
+      Statement  st=con.createStatement(); 
+    String r="insert into classe(nomClasse,annee) values('"+nomClasse+"','"+annee+"')"; 
+
+int i=st.executeUpdate(r);
+System.out.println("rows affected by insert "+i); 
+    } 
+    catch(Exception e){ 
+    System.out.print(e); 
+    e.printStackTrace(); 
+    } 
+    }
+    public List<Classe> listerClasse() {
+        
+         List<Classe> listcl=new ArrayList<>();
+         
+              try {
+		Connection con = Connexion.getCon();
+                Statement  st=con.createStatement(); 
+              ResultSet rs = st.executeQuery( "SELECT * from classe");
+
+				while (rs.next()) {
+					Classe cl = new Classe();
+                                        cl.setIdClasse(rs.getInt("idClasse"));
+					cl.setNomClasse(rs.getString("nomClasse"));
+					cl.setAnnee(rs.getString("annee"));
+					
+					
+					listcl.add(cl);
+				}}
+                catch (Exception er_rs) {
+				System.out.println("Erreur ResultSet " + er_rs.getMessage());
+			}
+		
+		 return listcl;
+    }
+    
+    public Classe listClasse(int idClasse) {
+        
+        Classe cl = new Classe();
+         
+              try {
+		Connection con = Connexion.getCon();
+                Statement  st=con.createStatement(); 
+              ResultSet rs = st.executeQuery( "SELECT * from classe where idClasse="+idClasse+"");
+
+				while (rs.next()) {
+					
+                                        cl.setIdClasse(rs.getInt("idClasse"));
+					cl.setNomClasse(rs.getString("nomClasse"));
+					cl.setAnnee(rs.getString("annee"));
+					
+					
+					
+				}}
+                catch (Exception er_rs) {
+				System.out.println("Erreur ResultSet " + er_rs.getMessage());
+			}
+		
+		 return cl;
+    }
+    public void UpdateClass(int idClasse,String nomClasse,String annee) {
+        try{
+            Connection con= Connexion.getCon();
+      Statement  st=con.createStatement(); 
+    String r="update classe set nomClasse='"+nomClasse+"',annee='"+annee+"' where idClasse="+idClasse+""; 
+
+int i=st.executeUpdate(r);
+System.out.println("rows affected by insert "+i); 
+    } 
+    catch(Exception e){ 
+    System.out.print(e); 
+    e.printStackTrace(); 
+    } 
+    }
+    public void supprimerClasse(int idClasse) {
+         try{
+            Connection con= Connexion.getCon();
+      Statement  st=con.createStatement(); 
+    String r="delete from classe where idClasse="+idClasse+""; 
+
+int i=st.executeUpdate(r);
+System.out.println("rows affected by insert "+i); 
+    } 
+    catch(Exception e){ 
+    System.out.print(e); 
+    e.printStackTrace(); 
+    } 
+    }
+    //inscription
+    public void Inscrire(int idClasse, String prenom,String nom,String adresse,String telephone,String dateNaiss,String lieuNaiss) {
+         try{
+            Connection con= Connexion.getCon();
+      Statement  st=con.createStatement(); 
+    String r="insert into Eleve(idClasse,prenom,nom,adresse,telephone,dateNaiss,lieuNaiss) values("+idClasse+",'"+prenom+"','"+nom+"','"+adresse+"','"+telephone+"','"+dateNaiss+"','"+lieuNaiss+"')"; 
+
+int i=st.executeUpdate(r);
+System.out.println("rows affected by insert "+i); 
+    } 
+    catch(Exception e){ 
+    System.out.print(e); 
+    e.printStackTrace(); 
+    } 
+    }
+    public List<Eleve> listerEleve(String nomClasse,String annee) {
+        
+         List<Eleve> listel=new ArrayList<>();
+         
+              try {
+		Connection con = Connexion.getCon();
+                Statement  st=con.createStatement(); 
+              ResultSet rs = st.executeQuery( "SELECT * from classe c,Eleve e where c.idClasse=e.idClasse and c.nomClasse='"+nomClasse+"' and c.annee='"+annee+"'");
+
+				while (rs.next()) {
+					Eleve cl = new Eleve();
+                                        cl.setIdClasse(rs.getInt("idClasse"));
+					cl.setNomClasse(rs.getString("nomClasse"));
+					cl.setAnnee(rs.getString("annee"));
+                                        cl.setIdEleve(rs.getInt("idEleve"));
+					cl.setPrenom(rs.getString("prenom"));
+					cl.setNom(rs.getString("nom"));
+                                        cl.setAdresse(rs.getString("adresse"));
+                                        cl.setTelephone(rs.getString("telephone"));
+                                        cl.setDateNaiss(rs.getString("dateNaiss"));
+                                        cl.setLieuNaiss(rs.getString("lieuNaiss"));
+					
+					
+					listel.add(cl);
+				}}
+                catch (Exception er_rs) {
+				System.out.println("Erreur ResultSet " + er_rs.getMessage());
+			}
+		
+		 return listel;
+    }
+}
