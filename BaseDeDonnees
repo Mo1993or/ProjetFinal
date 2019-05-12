@@ -1,0 +1,41 @@
+/*==============================================================*/
+/* Nom de SGBD :  MySQL 5.0                                     */
+/* Date de création :  04/05/2019 18:51:02                      */
+/*==============================================================*/
+
+create database edacy;
+use edacy;
+drop table if exists Classe;
+
+drop table if exists Eleve;
+
+/*==============================================================*/
+/* Table : Classe                                               */
+/*==============================================================*/
+create table Classe
+(
+   idClasse             int not null auto_increment,
+   nomClasse            varchar(254),
+   annee                varchar(254),
+   primary key (idClasse)
+);
+
+/*==============================================================*/
+/* Table : Eleve                                                */
+/*==============================================================*/
+create table Eleve
+(
+   idEleve              int not null auto_increment,
+   idClasse             int not null,
+   prenom               varchar(254),
+   nom                  varchar(254),
+   adresse              varchar(254),
+   telephone            varchar(254),
+   dateNaiss            varchar(254),
+   lieuNaiss            varchar(254),
+   primary key (idEleve)
+);
+
+alter table Eleve add constraint FK_avoir foreign key (idClasse)
+      references Classe (idClasse) on delete cascade on update cascade;
+
